@@ -13,6 +13,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,6 +27,14 @@ public class Trip extends  BaseEntity{
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @ManyToMany
+    @JoinTable(
+            name = "trip_category",
+            joinColumns = @JoinColumn(name = "trip_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private List<Category> categories;
 
     @Column(name = "trip_name", nullable = false)
     private String tripName;
@@ -39,10 +49,10 @@ public class Trip extends  BaseEntity{
     private Integer groupSize;
 
     @Column(name = "end_date", nullable = false)
-    private Integer endDate;
+    private Timestamp endDate;
 
     @Column(name = "start_date", nullable = false)
-    private Integer startDate;
+    private Timestamp startDate;
 
     @Column(name = "createddate")
     @CreatedDate

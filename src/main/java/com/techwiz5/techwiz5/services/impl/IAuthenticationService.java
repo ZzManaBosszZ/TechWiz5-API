@@ -18,6 +18,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 
@@ -62,6 +63,7 @@ public class IAuthenticationService implements AuthenticationService {
             User user = new User();
             user.setFullName(signUpRequest.getFullname());
             user.setEmail(signUpRequest.getEmail());
+            user.setFullName(signUpRequest.getFullname());
             user.setRole(Role.USER);
             user.setUserType("user");
             user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));

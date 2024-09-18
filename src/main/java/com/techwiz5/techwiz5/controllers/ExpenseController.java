@@ -1,12 +1,11 @@
 package com.techwiz5.techwiz5.controllers;
 
-
 import com.techwiz5.techwiz5.dtos.ResponseObject;
-import com.techwiz5.techwiz5.dtos.category.CategoryDTO;
+import com.techwiz5.techwiz5.dtos.expense.ExpenseDTO;
 import com.techwiz5.techwiz5.entities.User;
-import com.techwiz5.techwiz5.models.category.CreateCategory;
-import com.techwiz5.techwiz5.models.category.EditCategory;
-import com.techwiz5.techwiz5.services.CategoryService;
+import com.techwiz5.techwiz5.models.expense.CreateExpense;
+import com.techwiz5.techwiz5.models.expense.EditExpense;
+import com.techwiz5.techwiz5.services.ExpenseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,55 +17,51 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/")
 @RequiredArgsConstructor
-public class CategoryController {
+public class ExpenseController {
+    private final ExpenseService expenseService;
 
-    private final CategoryService categoryService;
-
-    @GetMapping("/any/category")
+    @GetMapping("/any/expense")
     ResponseEntity<ResponseObject> getAll() {
-        List<CategoryDTO> list = categoryService.findAll();
+        List<ExpenseDTO> list = expenseService.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject(true, 200, "ok", list)
         );
     }
-
-    @GetMapping("/category")
+    @GetMapping("/expense")
     ResponseEntity<ResponseObject> getAllByUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = (User) auth.getPrincipal();
-        List<CategoryDTO> list = categoryService.findAllByUser(currentUser);
+        List<ExpenseDTO> list = expenseService.findAllByUser(currentUser);
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject(true, 200, "ok", list)
         );
     }
-
-    @PostMapping("/category")
-    ResponseEntity<ResponseObject> create(@Valid @RequestBody CreateCategory createCategory) {
+    @PostMapping("/expense")
+    ResponseEntity<ResponseObject> create(@Valid @RequestBody CreateExpense createExpense) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = (User) auth.getPrincipal();
-        CategoryDTO categoryDTO = categoryService.create(createCategory, currentUser);
+         ExpenseDTO expenseDTO= expenseService.create(createExpense, currentUser);
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject(true, 200, "Create Success", categoryDTO)
+                new ResponseObject(true, 200, "Create Success", expenseDTO)
         );
     }
-    @PutMapping("/category")
-    ResponseEntity<ResponseObject> update(@Valid @RequestBody EditCategory editCategory) {
+    @PutMapping("/expense")
+    ResponseEntity<ResponseObject> update(@Valid @RequestBody EditExpense editExpense) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = (User) auth.getPrincipal();
-        CategoryDTO categoryDTO = categoryService.update(editCategory, currentUser);
+        ExpenseDTO expenseDTO = expenseService.update(editExpense, currentUser);
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject(true, 200, "Update Success", categoryDTO)
+                new ResponseObject(true, 200, "Update Success", expenseDTO)
         );
     }
 
-    @DeleteMapping("/category")
+    @DeleteMapping("/expense")
     ResponseEntity<ResponseObject> update(@RequestBody Long[] ids) {
-        categoryService.delete(ids);
+        expenseService.delete(ids);
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject(true, 200, "Delete success", "")
         );
     }
-
 }

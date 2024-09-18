@@ -1,4 +1,96 @@
 package com.techwiz5.techwiz5.services.impl;
 
-public class ITripService {
+import com.techwiz5.techwiz5.dtos.trip.TripDTO;
+import com.techwiz5.techwiz5.entities.Category;
+import com.techwiz5.techwiz5.entities.Trip;
+import com.techwiz5.techwiz5.entities.User;
+import com.techwiz5.techwiz5.exceptions.AppException;
+import com.techwiz5.techwiz5.exceptions.ErrorCode;
+import com.techwiz5.techwiz5.mappers.TripMapper;
+import com.techwiz5.techwiz5.models.trip.CreateTrip;
+import com.techwiz5.techwiz5.models.trip.EditTrip;
+import com.techwiz5.techwiz5.repositories.CategoryRepository;
+import com.techwiz5.techwiz5.repositories.TripRepository;
+import com.techwiz5.techwiz5.services.TripService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+public class ITripService implements TripService {
+    private final CategoryRepository categoryRepository;
+    private final TripRepository tripRepository;
+    private final TripMapper tripMapper;
+
+    @Override
+    public List<TripDTO> findAll() {
+        return tripRepository.findAll().stream().map(tripMapper::toTripDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TripDTO> findAllByUser(User user) {
+        List<Trip> categories = tripRepository.findAllByUser(user);
+        return categories.stream()
+                .map(tripMapper::toTripDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public TripDTO create(CreateTrip createTrip, User user) {
+        List<Category> categories = categoryRepository.findAllById(createTrip.getCategoriesId())
+                .stream()
+                .toList();
+        if (categories.isEmpty()) {
+            throw new AppException(ErrorCode.CATEGORY_NOTFOUND);
+        }
+        Trip trip = Trip.builder()
+                .user(user)
+                .categories(categories)
+                .endDate(createTrip.getEndDate())
+                .startDate(createTrip.getStartDate())
+                .budget(createTrip.getBudget())
+                .groupSize(createTrip.getGroupSize())
+                .tripDescription(createTrip.getTripDescription())
+                .tripName(createTrip.getTripName())
+                .createdBy(user.getFullName())
+                .modifiedBy(user.getFullName())
+                .createdDate(new Timestamp(System.currentTimeMillis()))
+                .modifiedDate(new Timestamp(System.currentTimeMillis()))
+                .build();
+        tripRepository.save(trip);
+        return tripMapper.toTripDTO(trip);
+    }
+
+    @Override
+    public TripDTO update(EditTrip editTrip, User user) {
+        Trip tripExisting = tripRepository.findById(editTrip.getId())
+                .orElseThrow(() -> new AppException(ErrorCode.TRIP_NOTFOUND));
+        List<Category> categories = categoryRepository.findAllById(editTrip.getCategoriesId())
+                .stream()
+                .toList();
+        if (categories.isEmpty()) {
+            throw new AppException(ErrorCode.CATEGORY_NOTFOUND);
+        }
+        tripExisting.setBudget(editTrip.getBudget());
+        tripExisting.setTripDescription(editTrip.getTripDescription());
+        tripExisting.setTripName(editTrip.getTripName());
+        tripExisting.setEndDate(editTrip.getEndDate());
+        tripExisting.setStartDate(editTrip.getStartDate());
+        tripExisting.setCreatedBy(user.getFullName());
+        tripExisting.setModifiedBy(user.getFullName());
+        tripExisting.setCreatedDate(new Timestamp(System.currentTimeMillis()));
+        tripExisting.setModifiedDate(new Timestamp(System.currentTimeMillis()));
+        tripRepository.save(tripExisting);
+        return tripMapper.toTripDTO(tripExisting);
+    }
+
+    @Override
+    public void delete(Long[] ids) {
+        tripRepository.deleteAllById(List.of(ids));
+    }
+
 }

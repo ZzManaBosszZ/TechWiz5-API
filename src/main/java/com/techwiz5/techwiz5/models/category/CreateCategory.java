@@ -11,5 +11,4 @@ import lombok.*;
 public class CreateCategory {
     @NotBlank(message = "Name is mandatory")
     private String name;
-    private Long Id;
 }

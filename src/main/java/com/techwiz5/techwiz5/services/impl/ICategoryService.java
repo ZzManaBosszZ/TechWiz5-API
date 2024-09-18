@@ -19,9 +19,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 @Service
 public class ICategoryService implements CategoryService {
+
     @Autowired
     private CategoryRepository categoryRepository;
-
     @Autowired
     private CategoryMapper categoryMapper;
 
@@ -31,8 +31,21 @@ public class ICategoryService implements CategoryService {
     }
 
     @Override
+    public List<CategoryDTO> findAllByUser(User user) {
+        List<Category> categories = categoryRepository.findAllByUser(user);
+        return categories.stream()
+                .map(categoryMapper::toCategoryDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public CategoryDTO create(CreateCategory createCategory, User user) {
+        Optional<Category> categoryExisting = categoryRepository.findByName(createCategory.getName());
+        if (categoryExisting.isPresent()) {
+            throw new AppException(ErrorCode.CATEGORY_EXISTED);
+        }
         Category category = Category.builder()
+                .user(user)
                 .name(createCategory.getName())
                 .createdBy(user.getFullName())
                 .modifiedBy(user.getFullName())
@@ -48,6 +61,10 @@ public class ICategoryService implements CategoryService {
         Category categoryExisting = categoryRepository.findById(editCategory.getId())
                 .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOTFOUND));
         categoryExisting.setName(editCategory.getName());
+        categoryExisting.setCreatedBy(user.getFullName());
+        categoryExisting.setModifiedBy(user.getFullName());
+        categoryExisting.setCreatedDate(new Timestamp(System.currentTimeMillis()));
+        categoryExisting.setModifiedDate(new Timestamp(System.currentTimeMillis()));
         categoryRepository.save(categoryExisting);
         return categoryMapper.toCategoryDTO(categoryExisting);
     }

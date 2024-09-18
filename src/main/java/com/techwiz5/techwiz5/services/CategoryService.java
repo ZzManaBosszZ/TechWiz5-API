@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface CategoryService {
     List<CategoryDTO> findAll();
+    List<CategoryDTO> findAllByUser(User user);
     CategoryDTO create(CreateCategory createCategory, User user);
     CategoryDTO update(EditCategory editCategory, User user);
     void delete(Long[] ids);
