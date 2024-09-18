@@ -25,6 +25,7 @@ public class TripMapper {
                 .budget(model.getBudget())
                 .tripName(model.getTripName())
                 .tripDescription(model.getTripDescription())
+                .groupSize(model.getGroupSize())
                 .endDate(model.getEndDate())
                 .startDate(model.getStartDate())
                 .createdBy(model.getCreatedBy())

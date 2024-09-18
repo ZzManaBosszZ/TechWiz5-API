@@ -49,15 +49,17 @@ public class ITripService implements TripService {
         }
         Trip trip = Trip.builder()
                 .user(user)
+                .categories(categories)
                 .endDate(createTrip.getEndDate())
                 .startDate(createTrip.getStartDate())
                 .budget(createTrip.getBudget())
+                .groupSize(createTrip.getGroupSize())
                 .tripDescription(createTrip.getTripDescription())
                 .tripName(createTrip.getTripName())
                 .createdBy(user.getFullName())
                 .modifiedBy(user.getFullName())
                 .createdDate(new Timestamp(System.currentTimeMillis()))
-                .createdDate(new Timestamp(System.currentTimeMillis()))
+                .modifiedDate(new Timestamp(System.currentTimeMillis()))
                 .build();
         tripRepository.save(trip);
         return tripMapper.toTripDTO(trip);

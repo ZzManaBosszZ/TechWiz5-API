@@ -40,13 +40,10 @@ public class ICategoryService implements CategoryService {
 
     @Override
     public CategoryDTO create(CreateCategory createCategory, User user) {
-        Optional<Category> categoryExisting = categoryRepository.findById(createCategory.);
-
+        Optional<Category> categoryExisting = categoryRepository.findByName(createCategory.getName());
         if (categoryExisting.isPresent()) {
-            // Category already exists, handle accordingly
             throw new AppException(ErrorCode.CATEGORY_EXISTED);
         }
-        if (categoryExisting != null) throw new AppException(ErrorCode.CATEGORY_EXISTED);
         Category category = Category.builder()
                 .user(user)
                 .name(createCategory.getName())
