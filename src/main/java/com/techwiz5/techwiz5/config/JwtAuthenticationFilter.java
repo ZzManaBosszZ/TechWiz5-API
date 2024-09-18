@@ -4,8 +4,8 @@ package com.techwiz5.techwiz5.config;
 
 
 
-import com.techwiz5.techwiz5.services.IUserService;
-import com.techwiz5.techwiz5.services.impl.JWTService;
+import com.techwiz5.techwiz5.services.impl.IUserService;
+import com.techwiz5.techwiz5.services.JWTService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

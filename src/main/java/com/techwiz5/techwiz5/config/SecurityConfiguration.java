@@ -1,7 +1,7 @@
 package com.techwiz5.techwiz5.config;
 
 import com.techwiz5.techwiz5.entities.Role;
-import com.techwiz5.techwiz5.services.IUserService;
+import com.techwiz5.techwiz5.services.impl.IUserService;
 import jakarta.servlet.MultipartConfigElement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -51,7 +51,7 @@ public class SecurityConfiguration {
                 )
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration configuration = new CorsConfiguration();
-                    configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "https://english-academy-psi.vercel.app", "https://english-academy-dashboard.vercel.app", "http://localhost:3001", "http://127.0.0.1:5500", "http://localhost:4200"));
+                    configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000",  "http://localhost:3001", "http://127.0.0.1:5500", "http://localhost:4200"));
                     configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
                     configuration.setAllowCredentials(true);
                     configuration.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization"));

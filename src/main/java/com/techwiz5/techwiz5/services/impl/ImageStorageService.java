@@ -1,9 +1,9 @@
-package com.techwiz5.techwiz5.services;
+package com.techwiz5.techwiz5.services.impl;
 
 
 import com.techwiz5.techwiz5.exceptions.AppException;
 import com.techwiz5.techwiz5.exceptions.ErrorCode;
-import com.techwiz5.techwiz5.services.impl.StorageService;
+import com.techwiz5.techwiz5.services.StorageService;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;

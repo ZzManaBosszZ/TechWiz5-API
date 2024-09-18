@@ -1,9 +1,9 @@
 
-package com.techwiz5.techwiz5.services;
+package com.techwiz5.techwiz5.services.impl;
 
 
 import com.techwiz5.techwiz5.entities.User;
-import com.techwiz5.techwiz5.services.impl.JWTService;
+import com.techwiz5.techwiz5.services.JWTService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -29,7 +29,7 @@ public class IJWTService implements JWTService {
                 .signWith(getSiginKey(), SignatureAlgorithm.HS256)
                 .claim("Role", userDetails.getAuthorities())
                 .claim("Id", user.getId())
-                .claim("full_name", user.getFullName())
+                .claim("full_name", user.getName())
                 .claim("Email", user.getEmail())
                 .compact();
     }

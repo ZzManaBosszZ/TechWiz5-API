@@ -3,7 +3,7 @@ package com.techwiz5.techwiz5.controllers;
 import com.techwiz5.techwiz5.dtos.ResponseObject;
 import com.techwiz5.techwiz5.dtos.menuadmin.Menu;
 import com.techwiz5.techwiz5.entities.User;
-import com.techwiz5.techwiz5.services.impl.AdminService;
+import com.techwiz5.techwiz5.services.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

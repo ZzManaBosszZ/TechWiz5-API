@@ -1,8 +1,6 @@
 package com.techwiz5.techwiz5.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,17 +21,28 @@ import java.sql.Timestamp;
 @SuperBuilder
 @Table(name = "trip")
 public class Trip extends  BaseEntity{
-    @Column(name = "Password", nullable = false)
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @Column(name = "trip_name", nullable = false)
     private String tripName;
 
-    @Column(name = "Description", nullable = false)
+    @Column(name = "destination", nullable = false)
     private String tripDescription;
 
     @Column(name = "budget", nullable = false)
     private BigDecimal budget;
 
-    @Column(name = "groupSize", nullable = false)
+    @Column(name = "group_size", nullable = false)
     private Integer groupSize;
+
+    @Column(name = "end_date", nullable = false)
+    private Integer endDate;
+
+    @Column(name = "start_date", nullable = false)
+    private Integer startDate;
 
     @Column(name = "createddate")
     @CreatedDate

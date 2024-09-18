@@ -14,10 +14,7 @@ import java.util.Date;
 @Builder
 public class UserDTO {
     private Long id;
-
     private String fullName;
-
     private String email;
-
 
 }

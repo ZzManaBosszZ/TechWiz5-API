@@ -1,7 +1,7 @@
 package com.techwiz5.techwiz5.controllers;
 
 
-import com.techwiz5.techwiz5.services.impl.StorageService;
+import com.techwiz5.techwiz5.services.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

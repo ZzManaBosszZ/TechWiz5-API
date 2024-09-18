@@ -1,7 +1,6 @@
-package com.techwiz5.techwiz5.services.impl;
+package com.techwiz5.techwiz5.services;
 
 
-import com.techwiz5.techwiz5.dtos.UpdateProfileUserRequest;
 import com.techwiz5.techwiz5.dtos.UserDTO;
 import com.techwiz5.techwiz5.dtos.auth.JwtAuthenticationResponse;
 import com.techwiz5.techwiz5.entities.User;

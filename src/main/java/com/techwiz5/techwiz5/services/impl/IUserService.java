@@ -1,12 +1,12 @@
 
-package com.techwiz5.techwiz5.services;
+package com.techwiz5.techwiz5.services.impl;
 
 
 import com.techwiz5.techwiz5.entities.User;
 import com.techwiz5.techwiz5.exceptions.AppException;
 import com.techwiz5.techwiz5.exceptions.ErrorCode;
 import com.techwiz5.techwiz5.repositories.UserRepository;
-import com.techwiz5.techwiz5.services.impl.UserService;
+import com.techwiz5.techwiz5.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

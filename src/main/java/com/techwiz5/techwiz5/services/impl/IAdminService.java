@@ -1,10 +1,10 @@
-package com.techwiz5.techwiz5.services;
+package com.techwiz5.techwiz5.services.impl;
 
 import com.techwiz5.techwiz5.dtos.menuadmin.Menu;
 import com.techwiz5.techwiz5.dtos.menuadmin.MenuItem;
 import com.techwiz5.techwiz5.entities.Role;
 import com.techwiz5.techwiz5.entities.User;
-import com.techwiz5.techwiz5.services.impl.AdminService;
+import com.techwiz5.techwiz5.services.AdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,9 +21,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class AdminServiceImpl implements AdminService {
-
-
+public class IAdminService implements AdminService {
 
     @Override
     public List<Menu> getMenu(User currenUser) {

@@ -1,7 +1,6 @@
-package com.techwiz5.techwiz5.services;
+package com.techwiz5.techwiz5.services.impl;
 
 
-import com.techwiz5.techwiz5.dtos.UpdateProfileUserRequest;
 import com.techwiz5.techwiz5.dtos.UserDTO;
 import com.techwiz5.techwiz5.dtos.auth.JwtAuthenticationResponse;
 import com.techwiz5.techwiz5.entities.Role;
@@ -11,16 +10,14 @@ import com.techwiz5.techwiz5.exceptions.ErrorCode;
 import com.techwiz5.techwiz5.models.auth.*;
 import com.techwiz5.techwiz5.models.mail.MailStructure;
 import com.techwiz5.techwiz5.repositories.UserRepository;
-import com.techwiz5.techwiz5.services.impl.AuthenticationService;
-import com.techwiz5.techwiz5.services.impl.JWTService;
-import com.techwiz5.techwiz5.services.impl.MailService;
+import com.techwiz5.techwiz5.services.AuthenticationService;
+import com.techwiz5.techwiz5.services.JWTService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.util.*;
 
 

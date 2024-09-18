@@ -9,6 +9,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CategoryMapper {
+    private final UserMapper userMapper;
+
+    public CategoryMapper(UserMapper userMapper) {
+        this.userMapper = userMapper;
+    }
+
     public CategoryDTO toCategoryDTO(Category model){
         if (model == null) throw new AppException(ErrorCode.NOTFOUND);
         CategoryDTO categoryDTO = CategoryDTO.builder()
@@ -17,6 +23,7 @@ public class CategoryMapper {
                 .createdBy(model.getCreatedBy())
                 .createdDate(model.getCreatedDate())
                 .modifiedBy(model.getModifiedBy())
+                .user(userMapper.toUserSummaryDTO(model.getUser()))
                 .modifiedDate(model.getModifiedDate())
                 .build();
         return categoryDTO;

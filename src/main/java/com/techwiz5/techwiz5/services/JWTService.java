@@ -1,4 +1,4 @@
-package com.techwiz5.techwiz5.services.impl;
+package com.techwiz5.techwiz5.services;
 
 
 import org.springframework.security.core.userdetails.UserDetails;

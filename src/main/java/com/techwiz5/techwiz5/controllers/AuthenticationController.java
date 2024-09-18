@@ -8,7 +8,7 @@ import com.techwiz5.techwiz5.entities.User;
 import com.techwiz5.techwiz5.exceptions.AppException;
 import com.techwiz5.techwiz5.exceptions.ErrorCode;
 import com.techwiz5.techwiz5.models.auth.*;
-import com.techwiz5.techwiz5.services.impl.AuthenticationService;
+import com.techwiz5.techwiz5.services.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -94,13 +94,4 @@ public class AuthenticationController {
         );
     }
 
-    @PutMapping("/user/update-profile")
-    ResponseEntity<ResponseObject> updateProfile(@RequestBody UpdateProfileUserRequest updateProfileUserRequest) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User currentUser = (User) auth.getPrincipal();
-        authenticationService.updateProfileUser(updateProfileUserRequest, currentUser);
-        return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject(true, 200, "ok", "")
-        );
-    }
 }
