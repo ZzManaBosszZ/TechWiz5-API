@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -20,9 +21,10 @@ public class TripDTO {
     private String tripDescription;
     private Integer groupSize;
     private BigDecimal budget;
-    private Integer endDate;
-    private Integer startDate;
-    private CategoryDTO category;
+    private UserDTO user;
+    private List<CategoryDTO> categories;
+    private Timestamp endDate;
+    private Timestamp startDate;
     private Timestamp createdDate;
     private Timestamp modifiedDate;
     private String createdBy;

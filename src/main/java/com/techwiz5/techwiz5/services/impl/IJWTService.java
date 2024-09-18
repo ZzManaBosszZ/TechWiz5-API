@@ -29,7 +29,7 @@ public class IJWTService implements JWTService {
                 .signWith(getSiginKey(), SignatureAlgorithm.HS256)
                 .claim("Role", userDetails.getAuthorities())
                 .claim("Id", user.getId())
-                .claim("full_name", user.getName())
+                .claim("full_name", user.getFullName())
                 .claim("Email", user.getEmail())
                 .compact();
     }

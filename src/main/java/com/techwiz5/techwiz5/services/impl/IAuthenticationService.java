@@ -18,6 +18,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 
@@ -61,6 +62,7 @@ public class IAuthenticationService implements AuthenticationService {
         } else {
             User user = new User();
             user.setEmail(signUpRequest.getEmail());
+            user.setFullName(signUpRequest.getFullname());
             user.setRole(Role.USER);
             user.setUserType("user");
             user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
@@ -105,7 +107,7 @@ public class IAuthenticationService implements AuthenticationService {
         User user = userRepository.findById(currentUser.getId()).orElseThrow(()-> new AppException(ErrorCode.NOTFOUND));
         UserDTO userDTO = UserDTO.builder()
                 .id(user.getId())
-                .fullName(user.getName())
+                .fullName(user.getFullName())
                 .email(user.getEmail())
                 .build();
         return userDTO;

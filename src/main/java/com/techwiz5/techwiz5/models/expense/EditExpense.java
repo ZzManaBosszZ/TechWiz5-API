@@ -9,8 +9,9 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EditExpense {
-    private int id;
+    private long id;
     private String expenseCategory;
     private String note;
     private BigDecimal amountExpense;
+    private long tripId;
 }

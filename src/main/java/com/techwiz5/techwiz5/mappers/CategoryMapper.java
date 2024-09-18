@@ -23,6 +23,7 @@ public class CategoryMapper {
                 .createdBy(model.getCreatedBy())
                 .createdDate(model.getCreatedDate())
                 .modifiedBy(model.getModifiedBy())
+                .modifiedDate(model.getModifiedDate())
                 .user(userMapper.toUserSummaryDTO(model.getUser()))
                 .modifiedDate(model.getModifiedDate())
                 .build();

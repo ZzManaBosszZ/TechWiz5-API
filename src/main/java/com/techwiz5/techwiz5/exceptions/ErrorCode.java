@@ -20,9 +20,7 @@ public enum ErrorCode {
     INVALID_TOKEN(400, "Invalid Token", HttpStatus.BAD_REQUEST) ,
     CART_NOTFOUND( 404, "Cart Not Found", HttpStatus.NOT_FOUND) ,
 
-    FOOD_NOTFOUND(404, "Food Not Found", HttpStatus.NOT_FOUND),
-    FOOD_EXISTED (400, "Food with this  already exists", HttpStatus.BAD_REQUEST),
-    REVIEW_EXISTED(400, "Review already exists", HttpStatus.BAD_REQUEST),
+    TRIP_NOTFOUND(404, "Trip Not Found", HttpStatus.NOT_FOUND) ,
     UNCATEGORIZED_EXCEPTION(9999, "Uncategorized error", HttpStatus.INTERNAL_SERVER_ERROR),
     INVALID_KEY(1001, "Uncategorized error", HttpStatus.BAD_REQUEST),
     EXPIRES(400, "Expires", HttpStatus.BAD_REQUEST),

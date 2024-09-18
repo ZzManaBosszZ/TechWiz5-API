@@ -12,6 +12,6 @@ import java.math.BigDecimal;
 public class CreateExpense {
     private String expenseCategory;
     private String note;
-
     private BigDecimal amountExpense;
+    private long tripId;
 }

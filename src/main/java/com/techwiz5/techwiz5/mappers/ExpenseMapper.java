@@ -1,8 +1,6 @@
 package com.techwiz5.techwiz5.mappers;
 
-import com.techwiz5.techwiz5.dtos.category.CategoryDTO;
 import com.techwiz5.techwiz5.dtos.expense.ExpenseDTO;
-
 import com.techwiz5.techwiz5.entities.Expense;
 import com.techwiz5.techwiz5.exceptions.AppException;
 import com.techwiz5.techwiz5.exceptions.ErrorCode;

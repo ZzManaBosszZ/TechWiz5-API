@@ -1,7 +1,6 @@
 package com.techwiz5.techwiz5.controllers;
 
 import com.techwiz5.techwiz5.dtos.ResponseObject;
-import com.techwiz5.techwiz5.dtos.UpdateProfileUserRequest;
 import com.techwiz5.techwiz5.dtos.UserDTO;
 import com.techwiz5.techwiz5.dtos.auth.JwtAuthenticationResponse;
 import com.techwiz5.techwiz5.entities.User;
@@ -22,9 +21,6 @@ import org.springframework.web.bind.annotation.*;
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
-
-
-
 
 
     @PostMapping("/auth/user/signup")
