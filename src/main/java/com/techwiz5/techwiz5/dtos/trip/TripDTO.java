@@ -18,7 +18,7 @@ import java.util.List;
 public class TripDTO {
     private long id;
     private String tripName;
-    private String tripDescription;
+    private String destination;
     private Integer groupSize;
     private BigDecimal budget;
     private UserDTO user;

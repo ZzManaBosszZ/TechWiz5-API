@@ -16,7 +16,7 @@ public class CreateTrip {
     private Timestamp endDate;
     private Timestamp startDate;
     private String tripName;
-    private String tripDescription;
+    private String destination;
     private BigDecimal budget;
     private Integer groupSize;
     private List<Long> categoriesId;

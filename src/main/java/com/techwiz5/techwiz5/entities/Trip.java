@@ -40,7 +40,7 @@ public class Trip extends  BaseEntity{
     private String tripName;
 
     @Column(name = "destination", nullable = false)
-    private String tripDescription;
+    private String tripDestination;
 
     @Column(name = "budget", nullable = false)
     private BigDecimal budget;

@@ -54,7 +54,7 @@ public class ITripService implements TripService {
                 .startDate(createTrip.getStartDate())
                 .budget(createTrip.getBudget())
                 .groupSize(createTrip.getGroupSize())
-                .tripDescription(createTrip.getTripDescription())
+                .tripDestination(createTrip.getDestination())
                 .tripName(createTrip.getTripName())
                 .createdBy(user.getFullName())
                 .modifiedBy(user.getFullName())
@@ -76,7 +76,7 @@ public class ITripService implements TripService {
             throw new AppException(ErrorCode.CATEGORY_NOTFOUND);
         }
         tripExisting.setBudget(editTrip.getBudget());
-        tripExisting.setTripDescription(editTrip.getTripDescription());
+        tripExisting.setTripDestination(editTrip.getDestination());
         tripExisting.setTripName(editTrip.getTripName());
         tripExisting.setEndDate(editTrip.getEndDate());
         tripExisting.setStartDate(editTrip.getStartDate());
