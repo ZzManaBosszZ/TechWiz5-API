@@ -34,8 +34,8 @@ public class ICategoryService implements CategoryService {
     public CategoryDTO create(CreateCategory createCategory, User user) {
         Category category = Category.builder()
                 .name(createCategory.getName())
-                .createdBy(user.getName())
-                .modifiedBy(user.getName())
+                .createdBy(user.getFullName())
+                .modifiedBy(user.getFullName())
                 .createdDate(new Timestamp(System.currentTimeMillis()))
                 .createdDate(new Timestamp(System.currentTimeMillis()))
                 .build();

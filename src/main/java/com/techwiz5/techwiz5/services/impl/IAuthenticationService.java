@@ -60,6 +60,7 @@ public class IAuthenticationService implements AuthenticationService {
         if (userExiting.isPresent()) {
         } else {
             User user = new User();
+            user.setFullName(signUpRequest.getFullname());
             user.setEmail(signUpRequest.getEmail());
             user.setRole(Role.USER);
             user.setUserType("user");
@@ -105,7 +106,7 @@ public class IAuthenticationService implements AuthenticationService {
         User user = userRepository.findById(currentUser.getId()).orElseThrow(()-> new AppException(ErrorCode.NOTFOUND));
         UserDTO userDTO = UserDTO.builder()
                 .id(user.getId())
-                .fullName(user.getName())
+                .fullName(user.getFullName())
                 .email(user.getEmail())
                 .build();
         return userDTO;
