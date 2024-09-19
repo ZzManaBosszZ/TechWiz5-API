@@ -32,7 +32,6 @@ public class IUserService implements UserService {
                         return userOptional.get();
                     }
                 }
-
                 throw new AppException(ErrorCode.INVALIDEMAILORPASSWORD);
             }
         };

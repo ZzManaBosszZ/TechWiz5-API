@@ -2,6 +2,7 @@ package com.techwiz5.techwiz5.controllers;
 
 import com.techwiz5.techwiz5.dtos.ResponseObject;
 import com.techwiz5.techwiz5.dtos.UserDTO;
+
 import com.techwiz5.techwiz5.dtos.auth.JwtAuthenticationResponse;
 import com.techwiz5.techwiz5.entities.User;
 import com.techwiz5.techwiz5.exceptions.AppException;
@@ -22,7 +23,30 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
-
+    @PutMapping("/user/profile")
+    public ResponseEntity<ResponseObject> updateProfile(@RequestBody @Valid UpdateProfile updateProfile) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth.getPrincipal() instanceof User)) {
+            throw new AppException(ErrorCode.NOTFOUND);
+        }
+        User currentUser = (User) auth.getPrincipal();
+        authenticationService.updateProfile(updateProfile, currentUser);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject(true, 200, "Profile updated successfully", "")
+        );
+    }
+    @GetMapping("/user/preferred-currency")
+    public ResponseEntity<ResponseObject> getPreferredCurrency() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth.getPrincipal() instanceof User)) {
+            throw new AppException(ErrorCode.NOTFOUND);
+        }
+        User currentUser = (User) auth.getPrincipal();
+        String preferredCurrency = authenticationService.getPreferredCurrencyForCurrentUser(currentUser);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject(true, 200, "ok", preferredCurrency)
+        );
+    }
     @PostMapping("/auth/user/signup")
     public ResponseEntity<ResponseObject> signup(@RequestBody @Valid SignUpRequest signUpRequest) {
         authenticationService.signup(signUpRequest);

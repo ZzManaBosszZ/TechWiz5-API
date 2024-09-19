@@ -11,6 +11,4 @@ import java.util.List;
 public interface AdminService {
     List<Menu> getMenu(User currenUser);
 
-
-
 }

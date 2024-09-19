@@ -2,6 +2,8 @@ package com.techwiz5.techwiz5.dtos.trip;
 
 import com.techwiz5.techwiz5.dtos.UserDTO;
 import com.techwiz5.techwiz5.dtos.category.CategoryDTO;
+import com.techwiz5.techwiz5.dtos.expense.ExpenseDTO;
+import com.techwiz5.techwiz5.dtos.photo.PhotoDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,6 +25,8 @@ public class TripDTO {
     private BigDecimal budget;
     private UserDTO user;
     private List<CategoryDTO> categories;
+    private List<ExpenseDTO> expenses;
+    private List<PhotoDTO> photos;
     private Timestamp endDate;
     private Timestamp startDate;
     private Timestamp createdDate;

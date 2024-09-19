@@ -8,10 +8,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ExpenseMapper {
-    private final TripMapper tripMapper;
     private final UserMapper userMapper;
-    public ExpenseMapper(TripMapper tripMapper, UserMapper userMapper) {
-        this.tripMapper = tripMapper;
+    public ExpenseMapper( UserMapper userMapper) {
         this.userMapper = userMapper;
     }
 
@@ -22,12 +20,12 @@ public class ExpenseMapper {
                 .amountExpense(model.getAmountExpense())
                 .expenseCategory(model.getExpenseCategory())
                 .note(model.getNote())
-                .trip(tripMapper.toTripDTO(model.getTrip()))
-                .user(userMapper.toUserSummaryDTO(model.getUser()))
+                .date(model.getDate())
                 .createdBy(model.getCreatedBy())
                 .createdDate(model.getCreatedDate())
                 .modifiedBy(model.getModifiedBy())
                 .modifiedDate(model.getModifiedDate())
+                .user(userMapper.toUserSummaryDTO(model.getUser()))
                 .build();
         return expenseDTO;
     }

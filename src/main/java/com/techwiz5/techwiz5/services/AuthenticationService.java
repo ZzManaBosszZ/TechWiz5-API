@@ -7,7 +7,7 @@ import com.techwiz5.techwiz5.entities.User;
 import com.techwiz5.techwiz5.models.auth.*;
 
 public interface AuthenticationService  {
-
+    String getPreferredCurrencyForCurrentUser(User currentUser);
     void signup(SignUpRequest signUpRequest);
     JwtAuthenticationResponse signin(SignInRequest signInRequest);
     JwtAuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest);
@@ -15,5 +15,5 @@ public interface AuthenticationService  {
     void changePassword(ChangePasswordRequest changePasswordRequest, User user);
     void forgotPassword(ForgotPasswordRequest forgotPasswordRequest);
     void resetPassword(ResetPasswordRequest resetPasswordRequest, String token);
-
+    void updateProfile(UpdateProfile updateProfile, User currentUser);
 }

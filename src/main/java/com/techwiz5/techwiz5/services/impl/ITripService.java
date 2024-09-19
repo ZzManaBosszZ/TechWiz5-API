@@ -95,6 +95,7 @@ public class ITripService implements TripService {
         return tripMapper.toTripDTO(tripExisting);
     }
 
+
     @Override
     public void delete(Long[] ids) {
         tripRepository.deleteAllById(List.of(ids));
