@@ -22,7 +22,6 @@ public class ExpenseDTO {
     private String note;
     private BigDecimal amountExpense;
     private UserDTO user;
-    private TripDTO trip;
     private Timestamp createdDate;
     private Timestamp modifiedDate;
     private String createdBy;

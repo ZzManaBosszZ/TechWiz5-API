@@ -2,6 +2,7 @@ package com.techwiz5.techwiz5.dtos.trip;
 
 import com.techwiz5.techwiz5.dtos.UserDTO;
 import com.techwiz5.techwiz5.dtos.category.CategoryDTO;
+import com.techwiz5.techwiz5.dtos.expense.ExpenseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,11 +19,12 @@ import java.util.List;
 public class TripDTO {
     private long id;
     private String tripName;
-    private String tripDescription;
+    private String destination;
     private Integer groupSize;
     private BigDecimal budget;
     private UserDTO user;
     private List<CategoryDTO> categories;
+    private List<ExpenseDTO> expenses;
     private Timestamp endDate;
     private Timestamp startDate;
     private Timestamp createdDate;

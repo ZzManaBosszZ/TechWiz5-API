@@ -17,6 +17,9 @@ public class UserMapper {
                 .id(model.getId())
                 .fullName(model.getUsername())
                 .email(model.getEmail())
+                .preferredCurrency(model.getPreferredCurrency())
+                .profilePictureUrl(model.getProfilePictureUrl())
+                .travelPreferences(model.getTravelPreferences())
                 .build();
         return userDTO;
     }

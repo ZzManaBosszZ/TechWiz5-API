@@ -40,6 +40,13 @@ public class ITripService implements TripService {
     }
 
     @Override
+    public TripDTO findTripByIdAndUser(Long tripId, User user) {
+        Trip trip = tripRepository.findByIdAndUser(tripId, user)
+                .orElseThrow(() -> new AppException(ErrorCode.TRIP_NOTFOUND));
+        return tripMapper.toTripDTO(trip);
+    }
+
+    @Override
     public TripDTO create(CreateTrip createTrip, User user) {
         List<Category> categories = categoryRepository.findAllById(createTrip.getCategoriesId())
                 .stream()
@@ -54,7 +61,7 @@ public class ITripService implements TripService {
                 .startDate(createTrip.getStartDate())
                 .budget(createTrip.getBudget())
                 .groupSize(createTrip.getGroupSize())
-                .tripDescription(createTrip.getTripDescription())
+                .tripDestination(createTrip.getDestination())
                 .tripName(createTrip.getTripName())
                 .createdBy(user.getFullName())
                 .modifiedBy(user.getFullName())
@@ -76,7 +83,7 @@ public class ITripService implements TripService {
             throw new AppException(ErrorCode.CATEGORY_NOTFOUND);
         }
         tripExisting.setBudget(editTrip.getBudget());
-        tripExisting.setTripDescription(editTrip.getTripDescription());
+        tripExisting.setTripDestination(editTrip.getDestination());
         tripExisting.setTripName(editTrip.getTripName());
         tripExisting.setEndDate(editTrip.getEndDate());
         tripExisting.setStartDate(editTrip.getStartDate());
@@ -87,6 +94,7 @@ public class ITripService implements TripService {
         tripRepository.save(tripExisting);
         return tripMapper.toTripDTO(tripExisting);
     }
+
 
     @Override
     public void delete(Long[] ids) {

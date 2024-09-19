@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface TripService {
     List<TripDTO> findAll();
+    TripDTO findTripByIdAndUser(Long tripId, User user);
     List<TripDTO> findAllByUser(User user);
     TripDTO create(CreateTrip createTrip, User user);
     TripDTO update(EditTrip editTrip, User user);

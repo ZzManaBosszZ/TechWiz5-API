@@ -11,12 +11,15 @@ import java.util.stream.Collectors;
 @Component
 public class TripMapper {
     private final UserMapper userMapper;
+    private final ExpenseMapper expenseMapper;
     private final CategoryMapper categoryMapper;
 
-    public TripMapper(UserMapper userMapper, CategoryMapper categoryMapper) {
+    public TripMapper(UserMapper userMapper, ExpenseMapper expenseMapper, CategoryMapper categoryMapper) {
         this.userMapper = userMapper;
+        this.expenseMapper = expenseMapper;
         this.categoryMapper = categoryMapper;
     }
+
 
     public TripDTO toTripDTO (Trip model){
         if (model == null) throw new AppException(ErrorCode.NOTFOUND);
@@ -24,7 +27,7 @@ public class TripMapper {
                 .id(model.getId())
                 .budget(model.getBudget())
                 .tripName(model.getTripName())
-                .tripDescription(model.getTripDescription())
+                .destination(model.getTripDestination())
                 .groupSize(model.getGroupSize())
                 .endDate(model.getEndDate())
                 .startDate(model.getStartDate())
@@ -35,6 +38,9 @@ public class TripMapper {
                 .user(userMapper.toUserSummaryDTO(model.getUser()))
                 .categories(model.getCategories().stream()
                         .map(categoryMapper::toCategoryDTO)
+                        .collect(Collectors.toList()))
+                .expenses(model.getExpenses().stream()
+                        .map(expenseMapper::toExpenseDTO)
                         .collect(Collectors.toList()))
                 .build();
         return tripDTO;

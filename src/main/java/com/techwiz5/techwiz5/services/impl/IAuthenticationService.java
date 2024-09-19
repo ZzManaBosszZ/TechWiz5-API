@@ -12,6 +12,7 @@ import com.techwiz5.techwiz5.models.mail.MailStructure;
 import com.techwiz5.techwiz5.repositories.UserRepository;
 import com.techwiz5.techwiz5.services.AuthenticationService;
 import com.techwiz5.techwiz5.services.JWTService;
+import com.techwiz5.techwiz5.services.StorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,6 +31,7 @@ public class IAuthenticationService implements AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final JWTService jwtService;
     private final MailService mailService;
+    private final StorageService storageService;
 
     private static final String ALLOWED_CHARACTERS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
@@ -55,12 +57,23 @@ public class IAuthenticationService implements AuthenticationService {
         return jwtAuthenticationResponse;
     }
 
+
+
+
+    @Override
+    public String getPreferredCurrencyForCurrentUser(User currentUser) {
+        return userRepository.findById(currentUser.getId())
+                .orElseThrow(() -> new AppException(ErrorCode.NOTFOUND))
+                .getPreferredCurrency();
+    }
+
     @Override
     public void signup(SignUpRequest signUpRequest) {
         Optional<User> userExiting = userRepository.findByEmail(signUpRequest.getEmail());
         if (userExiting.isPresent()) {
         } else {
             User user = new User();
+            user.setFullName(signUpRequest.getFullname());
             user.setEmail(signUpRequest.getEmail());
             user.setFullName(signUpRequest.getFullname());
             user.setRole(Role.USER);
@@ -125,7 +138,6 @@ public class IAuthenticationService implements AuthenticationService {
         userRepository.save(user);
     }
 
-
     @Override
     public void forgotPassword(ForgotPasswordRequest forgotPasswordRequest) {
         User user = userRepository.findByEmail(forgotPasswordRequest.getEmail())
@@ -148,7 +160,6 @@ public class IAuthenticationService implements AuthenticationService {
         mailService.sendMail(forgotPasswordRequest.getEmail(), mailStructure);
     }
 
-
     @Override
     public void resetPassword(ResetPasswordRequest resetPasswordRequest, String token) {
         User user = userRepository.findByEmail(resetPasswordRequest.getEmail())
@@ -165,6 +176,21 @@ public class IAuthenticationService implements AuthenticationService {
         user.setResetToken(null);
         user.setResetTokenExpiry(null);
         userRepository.save(user);
+    }
+
+    @Override
+    public void updateProfile(UpdateProfile updateProfile, User currentUser) {
+        if (updateProfile.getPreferredCurrency() != null) {
+            currentUser.setPreferredCurrency(updateProfile.getPreferredCurrency());
+        }
+        if (updateProfile.getTravelPreferences() != null) {
+            currentUser.setTravelPreferences(updateProfile.getTravelPreferences());
+        }
+        if (updateProfile.getProfilePictureUrl() != null && !updateProfile.getProfilePictureUrl().isEmpty()) {
+            String generatedFileName = storageService.storeFile(updateProfile.getProfilePictureUrl());
+            currentUser.setProfilePictureUrl(generatedFileName);
+        }
+        userRepository.save(currentUser);
     }
 
     private String generateResetToken() {

@@ -35,12 +35,14 @@ public class Trip extends  BaseEntity{
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private List<Category> categories;
+    @OneToMany(mappedBy = "trip")
+    private List<Expense> expenses;
 
     @Column(name = "trip_name", nullable = false)
     private String tripName;
 
     @Column(name = "destination", nullable = false)
-    private String tripDescription;
+    private String tripDestination;
 
     @Column(name = "budget", nullable = false)
     private BigDecimal budget;
@@ -54,19 +56,4 @@ public class Trip extends  BaseEntity{
     @Column(name = "start_date", nullable = false)
     private Timestamp startDate;
 
-    @Column(name = "createddate")
-    @CreatedDate
-    private Timestamp createdDate;
-
-    @Column(name = "modifieddate")
-    @LastModifiedDate
-    private Timestamp modifiedDate;
-
-    @Column(name = "createdby")
-    @CreatedBy
-    private String createdBy;
-
-    @Column(name = "modifiedby")
-    @LastModifiedBy
-    private String modifiedBy;
 }

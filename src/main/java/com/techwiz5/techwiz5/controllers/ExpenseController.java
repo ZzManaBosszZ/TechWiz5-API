@@ -5,6 +5,7 @@ import com.techwiz5.techwiz5.dtos.expense.ExpenseDTO;
 import com.techwiz5.techwiz5.entities.User;
 import com.techwiz5.techwiz5.models.expense.CreateExpense;
 import com.techwiz5.techwiz5.models.expense.EditExpense;
+import com.techwiz5.techwiz5.services.CurrencyConversionService;
 import com.techwiz5.techwiz5.services.ExpenseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -13,15 +14,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
+import com.techwiz5.techwiz5.exceptions.AppException;
+import com.techwiz5.techwiz5.exceptions.ErrorCode;
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class ExpenseController {
     private final ExpenseService expenseService;
-
+    private final CurrencyConversionService currencyConversionService;
     @GetMapping("/any/expense")
     ResponseEntity<ResponseObject> getAll() {
         List<ExpenseDTO> list = expenseService.findAll();
@@ -29,6 +32,23 @@ public class ExpenseController {
                 new ResponseObject(true, 200, "ok", list)
         );
     }
+
+    @GetMapping("/convert")
+    public ResponseEntity<?> convertExpense(
+            @RequestParam("amount") BigDecimal amount,
+            @RequestParam(value = "targetCurrency", required = false) String targetCurrency) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = (User) auth.getPrincipal();
+        if (targetCurrency == null || targetCurrency.isEmpty()) {
+            targetCurrency = currentUser.getPreferredCurrency();
+            if (targetCurrency == null || targetCurrency.isEmpty()) {
+                throw new AppException(ErrorCode.PREFERRED_CURRENCY_NOTFOUND);
+            }
+        }
+        BigDecimal convertedAmount = currencyConversionService.convertCurrency(amount, targetCurrency);
+        return ResponseEntity.ok(convertedAmount);
+    }
+
     @GetMapping("/expense")
     ResponseEntity<ResponseObject> getAllByUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

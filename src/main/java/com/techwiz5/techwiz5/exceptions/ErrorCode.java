@@ -19,7 +19,7 @@ public enum ErrorCode {
     ALREADY_PAID( 400,"Payment already exists for this order", HttpStatus.NOT_FOUND) ,
     INVALID_TOKEN(400, "Invalid Token", HttpStatus.BAD_REQUEST) ,
     CART_NOTFOUND( 404, "Cart Not Found", HttpStatus.NOT_FOUND) ,
-
+    PREFERRED_CURRENCY_NOTFOUND(404, "Preferred Currency Not Found", HttpStatus.NOT_FOUND) ,
     TRIP_NOTFOUND(404, "Trip Not Found", HttpStatus.NOT_FOUND) ,
     UNCATEGORIZED_EXCEPTION(9999, "Uncategorized error", HttpStatus.INTERNAL_SERVER_ERROR),
     INVALID_KEY(1001, "Uncategorized error", HttpStatus.BAD_REQUEST),
