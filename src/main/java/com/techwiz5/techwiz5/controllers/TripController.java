@@ -18,24 +18,27 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class TripController {
 
     private final TripService tripService;
 
-    @GetMapping("/any/trip")
-    ResponseEntity<ResponseObject> getAll() {
-        List<TripDTO> list = tripService.findAll();
-        return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject(true, 200, "ok", list)
-        );
-    }
     @GetMapping("/trip")
     ResponseEntity<ResponseObject> getAllByUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = (User) auth.getPrincipal();
         List<TripDTO> list = tripService.findAllByUser(currentUser);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject(true, 200, "ok", list)
+        );
+    }
+
+    @GetMapping("/trip/{id}")
+    ResponseEntity<ResponseObject> getById(@PathVariable("id") long id) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = (User) auth.getPrincipal();
+        TripDTO list = tripService.findTripByIdAndUser(id, currentUser);
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject(true, 200, "ok", list)
         );

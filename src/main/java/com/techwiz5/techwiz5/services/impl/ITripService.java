@@ -40,6 +40,13 @@ public class ITripService implements TripService {
     }
 
     @Override
+    public TripDTO findTripByIdAndUser(Long tripId, User user) {
+        Trip trip = tripRepository.findByIdAndUser(tripId, user)
+                .orElseThrow(() -> new AppException(ErrorCode.TRIP_NOTFOUND));
+        return tripMapper.toTripDTO(trip);
+    }
+
+    @Override
     public TripDTO create(CreateTrip createTrip, User user) {
         List<Category> categories = categoryRepository.findAllById(createTrip.getCategoriesId())
                 .stream()
