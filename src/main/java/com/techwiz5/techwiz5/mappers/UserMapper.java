@@ -19,7 +19,7 @@ public class UserMapper {
                 .email(model.getEmail())
                 .preferredCurrency(model.getPreferredCurrency())
                 .profilePictureUrl(model.getProfilePictureUrl())
-                .travelPreferences(model.getTravelPreferences())
+//                .travelPreferences(model.getTravelPreferences())
                 .build();
         return userDTO;
     }

@@ -25,13 +25,7 @@ import java.util.List;
 public class ExpenseController {
     private final ExpenseService expenseService;
     private final CurrencyConversionService currencyConversionService;
-    @GetMapping("/any/expense")
-    ResponseEntity<ResponseObject> getAll() {
-        List<ExpenseDTO> list = expenseService.findAll();
-        return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject(true, 200, "ok", list)
-        );
-    }
+
 
     @GetMapping("/convert")
     public ResponseEntity<?> convertExpense(
@@ -49,20 +43,27 @@ public class ExpenseController {
         return ResponseEntity.ok(convertedAmount);
     }
 
-    @GetMapping("/expense")
-    ResponseEntity<ResponseObject> getAllByUser() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User currentUser = (User) auth.getPrincipal();
-        List<ExpenseDTO> list = expenseService.findAllByUser(currentUser);
-        return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject(true, 200, "ok", list)
-        );
-    }
+//    @GetMapping("/any/expense")
+//    ResponseEntity<ResponseObject> getAll() {
+//        List<ExpenseDTO> list = expenseService.findAll();
+//        return ResponseEntity.status(HttpStatus.OK).body(
+//                new ResponseObject(true, 200, "ok", list)
+//        );
+//    }
+//    @GetMapping("/expense")
+//    ResponseEntity<ResponseObject> getAllByUser() {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        User currentUser = (User) auth.getPrincipal();
+//        List<ExpenseDTO> list = expenseService.findAllByUser(currentUser);
+//        return ResponseEntity.status(HttpStatus.OK).body(
+//                new ResponseObject(true, 200, "ok", list)
+//        );
+//    }
     @PostMapping("/expense")
     ResponseEntity<ResponseObject> create(@Valid @RequestBody CreateExpense createExpense) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = (User) auth.getPrincipal();
-         ExpenseDTO expenseDTO= expenseService.create(createExpense, currentUser);
+        List<ExpenseDTO> expenseDTO= expenseService.create(createExpense, currentUser);
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject(true, 200, "Create Success", expenseDTO)
         );

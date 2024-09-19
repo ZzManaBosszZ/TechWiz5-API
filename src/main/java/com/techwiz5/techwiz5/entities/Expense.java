@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 @Data
 @NoArgsConstructor
@@ -33,6 +34,9 @@ public class Expense extends   BaseEntity {
 
     @Column(name = "amount_expense", precision = 10, scale = 2)
     private BigDecimal amountExpense;
+
+    @Column(name = "date")
+    private Timestamp date;
 
 }
 

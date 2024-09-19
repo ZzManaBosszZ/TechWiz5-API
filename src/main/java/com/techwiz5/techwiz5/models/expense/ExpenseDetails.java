@@ -10,11 +10,9 @@ import java.sql.Timestamp;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EditExpense {
-    private long id;
+public class ExpenseDetails {
     private String expenseCategory;
     private String note;
     private BigDecimal amountExpense;
     private Timestamp date;
-    private long tripId;
 }

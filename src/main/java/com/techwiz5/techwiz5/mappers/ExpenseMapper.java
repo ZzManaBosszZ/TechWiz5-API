@@ -20,11 +20,12 @@ public class ExpenseMapper {
                 .amountExpense(model.getAmountExpense())
                 .expenseCategory(model.getExpenseCategory())
                 .note(model.getNote())
-                .user(userMapper.toUserSummaryDTO(model.getUser()))
+                .date(model.getDate())
                 .createdBy(model.getCreatedBy())
                 .createdDate(model.getCreatedDate())
                 .modifiedBy(model.getModifiedBy())
                 .modifiedDate(model.getModifiedDate())
+                .user(userMapper.toUserSummaryDTO(model.getUser()))
                 .build();
         return expenseDTO;
     }

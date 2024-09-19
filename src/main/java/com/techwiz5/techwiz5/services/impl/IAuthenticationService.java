@@ -121,6 +121,8 @@ public class IAuthenticationService implements AuthenticationService {
         UserDTO userDTO = UserDTO.builder()
                 .id(user.getId())
                 .fullName(user.getFullName())
+                .preferredCurrency(user.getPreferredCurrency())
+                .profilePictureUrl(user.getProfilePictureUrl())
                 .email(user.getEmail())
                 .build();
         return userDTO;
@@ -183,9 +185,9 @@ public class IAuthenticationService implements AuthenticationService {
         if (updateProfile.getPreferredCurrency() != null) {
             currentUser.setPreferredCurrency(updateProfile.getPreferredCurrency());
         }
-        if (updateProfile.getTravelPreferences() != null) {
-            currentUser.setTravelPreferences(updateProfile.getTravelPreferences());
-        }
+//        if (updateProfile.getTravelPreferences() != null) {
+//            currentUser.setTravelPreferences(updateProfile.getTravelPreferences());
+//        }
         if (updateProfile.getProfilePictureUrl() != null && !updateProfile.getProfilePictureUrl().isEmpty()) {
             String generatedFileName = storageService.storeFile(updateProfile.getProfilePictureUrl());
             currentUser.setProfilePictureUrl(generatedFileName);
