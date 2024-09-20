@@ -2,7 +2,6 @@ package com.techwiz5.techwiz5.controllers;
 
 import com.techwiz5.techwiz5.dtos.ResponseObject;
 import com.techwiz5.techwiz5.dtos.UserDTO;
-
 import com.techwiz5.techwiz5.dtos.auth.JwtAuthenticationResponse;
 import com.techwiz5.techwiz5.entities.User;
 import com.techwiz5.techwiz5.exceptions.AppException;
@@ -15,7 +14,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
@@ -23,30 +27,29 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
+
     @PutMapping("/user/profile")
-    public ResponseEntity<ResponseObject> updateProfile(@RequestBody @Valid UpdateProfile updateProfile) {
+    @Transactional
+    public ResponseEntity<ResponseObject> updateProfile(
+            @RequestParam("preferredCurrency") String preferredCurrency,
+            @RequestParam("travelPreferences") List<String> travelPreferences,
+            @RequestParam( "profilePictureUrl") MultipartFile profilePictureUrl) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth.getPrincipal() instanceof User)) {
             throw new AppException(ErrorCode.NOTFOUND);
         }
         User currentUser = (User) auth.getPrincipal();
+        UpdateProfile updateProfile = new UpdateProfile();
+        updateProfile.setPreferredCurrency(preferredCurrency);
+        updateProfile.setTravelPreferences(travelPreferences);
+        updateProfile.setProfilePictureUrl(profilePictureUrl);
         authenticationService.updateProfile(updateProfile, currentUser);
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject(true, 200, "Profile updated successfully", "")
+                new ResponseObject(true, 200, "ok", "")
         );
     }
-    @GetMapping("/user/preferred-currency")
-    public ResponseEntity<ResponseObject> getPreferredCurrency() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!(auth.getPrincipal() instanceof User)) {
-            throw new AppException(ErrorCode.NOTFOUND);
-        }
-        User currentUser = (User) auth.getPrincipal();
-        String preferredCurrency = authenticationService.getPreferredCurrencyForCurrentUser(currentUser);
-        return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject(true, 200, "ok", preferredCurrency)
-        );
-    }
+
+
     @PostMapping("/auth/user/signup")
     public ResponseEntity<ResponseObject> signup(@RequestBody @Valid SignUpRequest signUpRequest) {
         authenticationService.signup(signUpRequest);
