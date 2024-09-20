@@ -3,6 +3,7 @@ package com.techwiz5.techwiz5.controllers;
 import com.techwiz5.techwiz5.dtos.ResponseObject;
 
 import com.techwiz5.techwiz5.dtos.menuadmin.Menu;
+import com.techwiz5.techwiz5.dtos.trip.TripDTO;
 import com.techwiz5.techwiz5.entities.User;
 import com.techwiz5.techwiz5.services.AdminService;
 import lombok.RequiredArgsConstructor;
@@ -55,6 +56,18 @@ public class AdminController {
         );
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<ResponseObject> getAllTripsCreatedByAdmins(User user) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User currenUser = (User) auth.getPrincipal();
+        List<TripDTO> trips = adminService.findAllTripsCreatedByAdmins(currenUser);
+        if (!user.getRole().equals("ADMIN")) {
+            return ResponseEntity.status(403).build();
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject(true, 200, "ok", trips)
+        );
+    }
     @GetMapping("user")
     ResponseEntity<ResponseObject> getAllUsers() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

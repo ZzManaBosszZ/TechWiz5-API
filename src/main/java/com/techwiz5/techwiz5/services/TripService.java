@@ -15,4 +15,5 @@ public interface TripService {
     TripDTO create(CreateTrip createTrip, User user);
     TripDTO update(EditTrip editTrip, User user);
     void delete(Long[] ids);
+
 }

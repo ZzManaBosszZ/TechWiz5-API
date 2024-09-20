@@ -7,6 +7,7 @@ import com.techwiz5.techwiz5.entities.Role;
 import com.techwiz5.techwiz5.entities.User;
 import com.techwiz5.techwiz5.exceptions.AppException;
 import com.techwiz5.techwiz5.exceptions.ErrorCode;
+import com.techwiz5.techwiz5.mappers.UserMapper;
 import com.techwiz5.techwiz5.models.auth.*;
 import com.techwiz5.techwiz5.models.mail.MailStructure;
 import com.techwiz5.techwiz5.repositories.UserRepository;
@@ -18,9 +19,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -32,6 +34,7 @@ public class IAuthenticationService implements AuthenticationService {
     private final JWTService jwtService;
     private final MailService mailService;
     private final StorageService storageService;
+    private final UserMapper userMapper;
 
     private static final String ALLOWED_CHARACTERS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
@@ -46,8 +49,6 @@ public class IAuthenticationService implements AuthenticationService {
     }
 
 
-
-
     private JwtAuthenticationResponse generateJwtToken(User user) {
         String token = jwtService.generateToken(user);
         String refreshToken = jwtService.generateRefreshToken(new HashMap<>(), user);
@@ -58,14 +59,6 @@ public class IAuthenticationService implements AuthenticationService {
     }
 
 
-
-
-    @Override
-    public String getPreferredCurrencyForCurrentUser(User currentUser) {
-        return userRepository.findById(currentUser.getId())
-                .orElseThrow(() -> new AppException(ErrorCode.NOTFOUND))
-                .getPreferredCurrency();
-    }
 
 
     @Override
@@ -118,16 +111,13 @@ public class IAuthenticationService implements AuthenticationService {
     @Override
     public UserDTO profile(User currentUser) {
         if (currentUser == null) throw new AppException(ErrorCode.NOTFOUND);
-        User user = userRepository.findById(currentUser.getId()).orElseThrow(()-> new AppException(ErrorCode.NOTFOUND));
-        UserDTO userDTO = UserDTO.builder()
-                .id(user.getId())
-                .fullName(user.getFullName())
-                .preferredCurrency(user.getPreferredCurrency())
-                .profilePictureUrl(user.getProfilePictureUrl())
-                .email(user.getEmail())
-                .build();
-        return userDTO;
+        User user = userRepository.findById(currentUser.getId())
+                .orElseThrow(() -> new AppException(ErrorCode.NOTFOUND));
+        return userMapper.toUserSummaryDTO(user);
     }
+
+
+
     @Override
     public void changePassword(ChangePasswordRequest changePasswordRequest, User user) {
         System.out.println(changePasswordRequest.toString());
@@ -181,25 +171,21 @@ public class IAuthenticationService implements AuthenticationService {
         userRepository.save(user);
     }
 
+    @Transactional
     @Override
-    public void updateProfile(UpdateProfile updateProfile, User currentUser) {
-        if (updateProfile.getPreferredCurrency() != null) {
-            currentUser.setPreferredCurrency(updateProfile.getPreferredCurrency());
+    public void updateProfile(UpdateProfile updateProfile, User user) {
+        if (updateProfile.getPreferredCurrency() != null && !updateProfile.getPreferredCurrency().isEmpty()) {
+            user.setPreferredCurrency(updateProfile.getPreferredCurrency());
         }
         if (updateProfile.getTravelPreferences() != null) {
-            List<String> currentPreferences = currentUser.getTravelPreferences();
-            for (String newPreference : updateProfile.getTravelPreferences()) {
-                if (!currentPreferences.contains(newPreference)) {
-                    currentPreferences.add(newPreference);
-                }
-            }
-            currentUser.setTravelPreferences(currentPreferences);
+            user.getTravelPreferences().clear();
+            user.getTravelPreferences().addAll(updateProfile.getTravelPreferences());
         }
         if (updateProfile.getProfilePictureUrl() != null && !updateProfile.getProfilePictureUrl().isEmpty()) {
             String generatedFileName = storageService.storeFile(updateProfile.getProfilePictureUrl());
-            currentUser.setProfilePictureUrl(generatedFileName);
+            user.setProfilePictureUrl("http://localhost:8080/api/v1/FileUpload/files/"+ generatedFileName);
         }
-        userRepository.save(currentUser);
+        userRepository.save(user);
     }
 
     private String generateResetToken() {

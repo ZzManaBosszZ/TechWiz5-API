@@ -2,6 +2,7 @@ package com.techwiz5.techwiz5.services.impl;
 
 import com.techwiz5.techwiz5.dtos.trip.TripDTO;
 import com.techwiz5.techwiz5.entities.Category;
+import com.techwiz5.techwiz5.entities.Role;
 import com.techwiz5.techwiz5.entities.Trip;
 import com.techwiz5.techwiz5.entities.User;
 import com.techwiz5.techwiz5.exceptions.AppException;
@@ -11,6 +12,7 @@ import com.techwiz5.techwiz5.models.trip.CreateTrip;
 import com.techwiz5.techwiz5.models.trip.EditTrip;
 import com.techwiz5.techwiz5.repositories.CategoryRepository;
 import com.techwiz5.techwiz5.repositories.TripRepository;
+import com.techwiz5.techwiz5.repositories.UserRepository;
 import com.techwiz5.techwiz5.services.TripService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,7 @@ public class ITripService implements TripService {
     private final CategoryRepository categoryRepository;
     private final TripRepository tripRepository;
     private final TripMapper tripMapper;
+    private final UserRepository userRepository;
 
     @Override
     public List<TripDTO> findAll() {

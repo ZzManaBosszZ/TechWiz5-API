@@ -6,14 +6,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
 public class UpdateProfileUserRequest {
-    @NotNull(message = "Date of birth cannot be null")
-    private LocalDate dob;
-    @NotEmpty(message = "Phone number cannot be empty")
-    private String phone;
-    @NotEmpty(message = "Address cannot be empty")
-    private String address;
+    private String preferredCurrency;
+//    private List<> travelPreferences;
+    private String profilePictureUrl;
 }

@@ -14,4 +14,5 @@ public interface TripRepository extends JpaRepository<Trip, Long> {
     Optional<Trip> findByIdAndUser(Long id, User user);
     long count();
     List<Trip> findByIsFeaturedTrue();
+    List<Trip> findAllByUserIn(List<User> users);
 }

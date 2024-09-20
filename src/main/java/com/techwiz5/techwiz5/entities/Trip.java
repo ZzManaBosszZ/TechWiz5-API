@@ -37,7 +37,7 @@ public class Trip extends  BaseEntity{
     )
     private List<Category> categories;
     @OneToMany(mappedBy = "trip")
-    private List<Expense> expenses = new ArrayList<>();
+    private List<Expense> expenses;
 
     @Column(name = "trip_name", nullable = false)
     private String tripName;
@@ -61,7 +61,7 @@ public class Trip extends  BaseEntity{
     private Boolean isFeatured;
 
     @OneToMany(mappedBy = "trip")
-    private List<Photo> photos = new ArrayList<>();
+    private List<Photo> photos;
 
 
 }

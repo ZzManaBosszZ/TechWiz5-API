@@ -4,8 +4,11 @@ import com.techwiz5.techwiz5.dtos.ResponseObject;
 import com.techwiz5.techwiz5.dtos.UserDTO;
 import com.techwiz5.techwiz5.dtos.menuadmin.Menu;
 import com.techwiz5.techwiz5.dtos.menuadmin.MenuItem;
+import com.techwiz5.techwiz5.dtos.trip.TripDTO;
 import com.techwiz5.techwiz5.entities.Role;
+import com.techwiz5.techwiz5.entities.Trip;
 import com.techwiz5.techwiz5.entities.User;
+import com.techwiz5.techwiz5.mappers.TripMapper;
 import com.techwiz5.techwiz5.mappers.UserMapper;
 import com.techwiz5.techwiz5.repositories.ContactRepository;
 import com.techwiz5.techwiz5.repositories.TripRepository;
@@ -34,6 +37,7 @@ public class IAdminService implements AdminService {
     private final UserMapper userMapper;
     private final TripRepository tripRepository;
     private final ContactRepository contactRepository;
+    private final TripMapper tripMapper;
 
     @Override
     public List<Menu> getMenu(User currenUser) {
@@ -68,6 +72,15 @@ public class IAdminService implements AdminService {
         List<User> users = userRepository.findAll();
         return users.stream()
                 .map(userMapper::toUserSummaryDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TripDTO> findAllTripsCreatedByAdmins(User user) {
+        List<User> adminUsers = userRepository.findAllByRole(Role.ADMIN);
+        List<Trip> trips = tripRepository.findAllByUserIn(adminUsers);
+        return trips.stream()
+                .map(tripMapper::toTripDTO)
                 .collect(Collectors.toList());
     }
 
