@@ -19,5 +19,6 @@ public class CreateTrip {
     private String destination;
     private BigDecimal budget;
     private Integer groupSize;
+    private Boolean isFeatured;
     private List<Long> categoriesId;
 }

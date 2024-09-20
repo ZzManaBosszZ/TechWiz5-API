@@ -33,8 +33,8 @@ public class ITripService implements TripService {
 
     @Override
     public List<TripDTO> findAllByUser(User user) {
-        List<Trip> categories = tripRepository.findAllByUser(user);
-        return categories.stream()
+        List<Trip> trips = tripRepository.findAllByUser(user);
+        return trips.stream()
                 .map(tripMapper::toTripDTO)
                 .collect(Collectors.toList());
     }
@@ -48,6 +48,9 @@ public class ITripService implements TripService {
 
     @Override
     public TripDTO create(CreateTrip createTrip, User user) {
+        if (!user.getRole().equals("ADMIN") && createTrip.getIsFeatured()) {
+            throw new AppException(ErrorCode.UNAUTHORIZED);
+        }
         List<Category> categories = categoryRepository.findAllById(createTrip.getCategoriesId())
                 .stream()
                 .toList();
@@ -63,6 +66,7 @@ public class ITripService implements TripService {
                 .groupSize(createTrip.getGroupSize())
                 .tripDestination(createTrip.getDestination())
                 .tripName(createTrip.getTripName())
+                .isFeatured(createTrip.getIsFeatured())
                 .createdBy(user.getFullName())
                 .modifiedBy(user.getFullName())
                 .createdDate(new Timestamp(System.currentTimeMillis()))

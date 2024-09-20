@@ -1,6 +1,7 @@
 package com.techwiz5.techwiz5.controllers;
 
 import com.techwiz5.techwiz5.dtos.ResponseObject;
+
 import com.techwiz5.techwiz5.dtos.menuadmin.Menu;
 import com.techwiz5.techwiz5.entities.User;
 import com.techwiz5.techwiz5.services.AdminService;
@@ -12,7 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.techwiz5.techwiz5.dtos.UserDTO;
 import java.util.List;
 
 
@@ -23,6 +24,26 @@ public class AdminController {
 
     private final AdminService adminService;
 
+    @GetMapping("count/user")
+    public ResponseEntity<ResponseObject> getTotalUsers() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User currenUser = (User) auth.getPrincipal();
+        return adminService.countUsers(currenUser);
+    }
+
+    @GetMapping("count/trip")
+    public ResponseEntity<ResponseObject> getTotalTrips() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User currenUser = (User) auth.getPrincipal();
+        return adminService.countTrips(currenUser);
+    }
+
+    @GetMapping("count/contact")
+    public ResponseEntity<ResponseObject> getTotalContacts() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User currenUser = (User) auth.getPrincipal();
+        return adminService.countContacts(currenUser);
+    }
 
     @GetMapping("menu")
     public ResponseEntity<ResponseObject> getMenu() {
@@ -31,6 +52,14 @@ public class AdminController {
         List<Menu> menuItems = adminService.getMenu(currenUser);
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject(true, 200, "ok", menuItems)
+        );
+    }
+
+    @GetMapping("user")
+    ResponseEntity<ResponseObject> getAllUsers() {
+        List<UserDTO> list = adminService.findAllUsers();
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject(true, 200, "ok", list)
         );
     }
 

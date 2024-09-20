@@ -25,11 +25,13 @@ public class PhotoController {
 
     @PostMapping("/photo")
     public ResponseEntity<ResponseObject> create(
+            @RequestParam("tripid") long id,
             @RequestParam("image") List<MultipartFile> image) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = (User) auth.getPrincipal();
         CreatePhotoRequest createPhotoRequest = new CreatePhotoRequest();
         createPhotoRequest.setFile(image);
+        createPhotoRequest.setTripId(id);
         photoService.addPhotos(createPhotoRequest,currentUser);
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject(true, 200, "Create Success", "")

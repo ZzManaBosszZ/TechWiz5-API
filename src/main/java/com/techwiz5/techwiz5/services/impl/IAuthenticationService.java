@@ -67,6 +67,7 @@ public class IAuthenticationService implements AuthenticationService {
                 .getPreferredCurrency();
     }
 
+
     @Override
     public void signup(SignUpRequest signUpRequest) {
         Optional<User> userExiting = userRepository.findByEmail(signUpRequest.getEmail());
@@ -185,9 +186,15 @@ public class IAuthenticationService implements AuthenticationService {
         if (updateProfile.getPreferredCurrency() != null) {
             currentUser.setPreferredCurrency(updateProfile.getPreferredCurrency());
         }
-//        if (updateProfile.getTravelPreferences() != null) {
-//            currentUser.setTravelPreferences(updateProfile.getTravelPreferences());
-//        }
+        if (updateProfile.getTravelPreferences() != null) {
+            List<String> currentPreferences = currentUser.getTravelPreferences();
+            for (String newPreference : updateProfile.getTravelPreferences()) {
+                if (!currentPreferences.contains(newPreference)) {
+                    currentPreferences.add(newPreference);
+                }
+            }
+            currentUser.setTravelPreferences(currentPreferences);
+        }
         if (updateProfile.getProfilePictureUrl() != null && !updateProfile.getProfilePictureUrl().isEmpty()) {
             String generatedFileName = storageService.storeFile(updateProfile.getProfilePictureUrl());
             currentUser.setProfilePictureUrl(generatedFileName);

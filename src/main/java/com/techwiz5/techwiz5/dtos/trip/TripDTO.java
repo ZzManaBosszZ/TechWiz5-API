@@ -27,6 +27,7 @@ public class TripDTO {
     private List<CategoryDTO> categories;
     private List<ExpenseDTO> expenses;
     private List<PhotoDTO> photos;
+    private Boolean isFeatured;
     private Timestamp endDate;
     private Timestamp startDate;
     private Timestamp createdDate;

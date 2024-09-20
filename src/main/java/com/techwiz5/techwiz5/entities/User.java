@@ -41,10 +41,10 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "preferred_currency")
     private String preferredCurrency;
 
-//    @ElementCollection
-//    @CollectionTable(name = "travel_preferences", joinColumns = @JoinColumn(name = "user_id"))
-//    @Column(name = "preference")
-//    private List<String> travelPreferences;
+    @ElementCollection
+    @CollectionTable(name = "travel_preferences", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "preference")
+    private List<String> travelPreferences;
 
     @Column(name = "profile_picture_url")
     @Pattern(regexp = "^(http|https)://.*$", message = "Image URL should be a valid URL")

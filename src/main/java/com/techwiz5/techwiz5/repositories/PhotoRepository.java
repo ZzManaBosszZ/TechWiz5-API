@@ -10,6 +10,5 @@ import java.util.List;
 
 @Repository
 public interface PhotoRepository extends JpaRepository<Photo, Long> {
-    List<Photo> findByTrip(Trip trip);
     List<Photo> findByUserAndTrip(User user, Trip trip);
 }

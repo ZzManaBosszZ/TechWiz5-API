@@ -1,12 +1,19 @@
 package com.techwiz5.techwiz5.services.impl;
 
+import com.techwiz5.techwiz5.dtos.ResponseObject;
+import com.techwiz5.techwiz5.dtos.UserDTO;
 import com.techwiz5.techwiz5.dtos.menuadmin.Menu;
 import com.techwiz5.techwiz5.dtos.menuadmin.MenuItem;
 import com.techwiz5.techwiz5.entities.Role;
 import com.techwiz5.techwiz5.entities.User;
+import com.techwiz5.techwiz5.mappers.UserMapper;
+import com.techwiz5.techwiz5.repositories.ContactRepository;
+import com.techwiz5.techwiz5.repositories.TripRepository;
+import com.techwiz5.techwiz5.repositories.UserRepository;
 import com.techwiz5.techwiz5.services.AdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +29,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 public class IAdminService implements AdminService {
+
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
+    private final TripRepository tripRepository;
+    private final ContactRepository contactRepository;
 
     @Override
     public List<Menu> getMenu(User currenUser) {
@@ -51,6 +63,30 @@ public class IAdminService implements AdminService {
                 .collect(Collectors.toSet());
     }
 
+    @Override
+    public List<UserDTO> findAllUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream()
+                .map(userMapper::toUserSummaryDTO)
+                .collect(Collectors.toList());
+    }
 
+    @Override
+    public ResponseEntity<ResponseObject> countUsers(User user) {
+        long totalUsers = userRepository.count();
+        return ResponseEntity.ok(new ResponseObject(true, 200, "ok", totalUsers));
+    }
+
+    @Override
+    public ResponseEntity<ResponseObject> countTrips(User user) {
+        long totalTrips = tripRepository.count();
+        return ResponseEntity.ok(new ResponseObject(true, 200, "ok", totalTrips));
+    }
+
+    @Override
+    public ResponseEntity<ResponseObject> countContacts(User user) {
+        long totalContacts = contactRepository.count();
+        return ResponseEntity.ok(new ResponseObject(true, 200, "ok", totalContacts));
+    }
 
 }

@@ -56,7 +56,11 @@ public class Trip extends  BaseEntity{
     @Column(name = "start_date", nullable = false)
     private Timestamp startDate;
 
+    @Column(name = "is_featured")
+    private Boolean isFeatured;
+
     @OneToMany(mappedBy = "trip")
     private List<Photo> photos;
+
 
 }

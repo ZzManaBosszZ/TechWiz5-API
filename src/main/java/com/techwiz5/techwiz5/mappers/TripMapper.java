@@ -31,6 +31,7 @@ public class TripMapper {
                 .tripName(model.getTripName())
                 .destination(model.getTripDestination())
                 .groupSize(model.getGroupSize())
+                .isFeatured(model.getIsFeatured())
                 .endDate(model.getEndDate())
                 .startDate(model.getStartDate())
                 .createdBy(model.getCreatedBy())
