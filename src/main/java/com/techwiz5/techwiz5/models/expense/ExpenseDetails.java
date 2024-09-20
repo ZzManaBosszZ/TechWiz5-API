@@ -13,6 +13,7 @@ import java.sql.Timestamp;
 public class ExpenseDetails {
     private String expenseCategory;
     private String note;
+    private String name;
     private BigDecimal amountExpense;
     private Timestamp date;
 }

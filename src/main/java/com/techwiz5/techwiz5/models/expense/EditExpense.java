@@ -14,6 +14,7 @@ public class EditExpense {
     private long id;
     private String expenseCategory;
     private String note;
+    private String name;
     private BigDecimal amountExpense;
     private Timestamp date;
     private long tripId;

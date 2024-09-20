@@ -21,6 +21,7 @@ public class ExpenseMapper {
                 .expenseCategory(model.getExpenseCategory())
                 .note(model.getNote())
                 .date(model.getDate())
+                .name(model.getName())
                 .createdBy(model.getCreatedBy())
                 .createdDate(model.getCreatedDate())
                 .modifiedBy(model.getModifiedBy())

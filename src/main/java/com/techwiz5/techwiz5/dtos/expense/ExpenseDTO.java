@@ -21,6 +21,7 @@ public class ExpenseDTO {
     private String expenseCategory;
     private String note;
     private BigDecimal amountExpense;
+    private String name;
     private UserDTO user;
     private Timestamp date;
     private Timestamp createdDate;
