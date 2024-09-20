@@ -15,11 +15,11 @@ public class UserMapper {
         if (model == null) throw new AppException(ErrorCode.NOTFOUND);
         UserDTO userDTO = UserDTO.builder()
                 .id(model.getId())
-                .fullName(model.getUsername())
+                .fullName(model.getFullName())
                 .email(model.getEmail())
                 .preferredCurrency(model.getPreferredCurrency())
                 .profilePictureUrl(model.getProfilePictureUrl())
-//                .travelPreferences(model.getTravelPreferences())
+                .travelPreferences(model.getTravelPreferences())
                 .build();
         return userDTO;
     }
