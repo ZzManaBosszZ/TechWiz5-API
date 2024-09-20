@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,7 +29,7 @@ public class ITripService implements TripService {
 
     @Override
     public List<TripDTO> findAll() {
-        return tripRepository.findAll().stream().map(tripMapper::toTripDTO).collect(Collectors.toList());
+        return tripRepository.findByIsFeaturedTrue().stream().map(tripMapper::toTripDTO).collect(Collectors.toList());
     }
 
     @Override
@@ -48,9 +49,6 @@ public class ITripService implements TripService {
 
     @Override
     public TripDTO create(CreateTrip createTrip, User user) {
-        if (!user.getRole().equals("ADMIN") && createTrip.getIsFeatured()) {
-            throw new AppException(ErrorCode.UNAUTHORIZED);
-        }
         List<Category> categories = categoryRepository.findAllById(createTrip.getCategoriesId())
                 .stream()
                 .toList();
@@ -66,7 +64,9 @@ public class ITripService implements TripService {
                 .groupSize(createTrip.getGroupSize())
                 .tripDestination(createTrip.getDestination())
                 .tripName(createTrip.getTripName())
-                .isFeatured(createTrip.getIsFeatured())
+                .expenses(new ArrayList<>())
+                .photos(new ArrayList<>())
+                .isFeatured(false)
                 .createdBy(user.getFullName())
                 .modifiedBy(user.getFullName())
                 .createdDate(new Timestamp(System.currentTimeMillis()))

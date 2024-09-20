@@ -13,6 +13,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -36,7 +37,7 @@ public class Trip extends  BaseEntity{
     )
     private List<Category> categories;
     @OneToMany(mappedBy = "trip")
-    private List<Expense> expenses;
+    private List<Expense> expenses = new ArrayList<>();
 
     @Column(name = "trip_name", nullable = false)
     private String tripName;
@@ -60,7 +61,7 @@ public class Trip extends  BaseEntity{
     private Boolean isFeatured;
 
     @OneToMany(mappedBy = "trip")
-    private List<Photo> photos;
+    private List<Photo> photos = new ArrayList<>();
 
 
 }

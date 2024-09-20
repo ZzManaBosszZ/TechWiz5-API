@@ -12,13 +12,11 @@ import java.util.List;
 @Getter
 @Setter
 public class CreateTrip {
-
     private Timestamp endDate;
     private Timestamp startDate;
     private String tripName;
     private String destination;
     private BigDecimal budget;
     private Integer groupSize;
-    private Boolean isFeatured;
     private List<Long> categoriesId;
 }
