@@ -57,7 +57,9 @@ public class AdminController {
 
     @GetMapping("user")
     ResponseEntity<ResponseObject> getAllUsers() {
-        List<UserDTO> list = adminService.findAllUsers();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User currenUser = (User) auth.getPrincipal();
+        List<UserDTO> list = adminService.findAllUsers(currenUser);
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject(true, 200, "ok", list)
         );

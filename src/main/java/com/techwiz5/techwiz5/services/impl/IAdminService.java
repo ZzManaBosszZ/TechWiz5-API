@@ -64,7 +64,7 @@ public class IAdminService implements AdminService {
     }
 
     @Override
-    public List<UserDTO> findAllUsers() {
+    public List<UserDTO> findAllUsers(User user) {
         List<User> users = userRepository.findAll();
         return users.stream()
                 .map(userMapper::toUserSummaryDTO)

@@ -13,7 +13,7 @@ import java.util.List;
 
 public interface AdminService {
     List<Menu> getMenu(User currenUser);
-    List<UserDTO> findAllUsers();
+    List<UserDTO> findAllUsers(User user);
     ResponseEntity<ResponseObject> countUsers(User user);
     ResponseEntity<ResponseObject> countTrips(User user);
     ResponseEntity<ResponseObject> countContacts(User user);
