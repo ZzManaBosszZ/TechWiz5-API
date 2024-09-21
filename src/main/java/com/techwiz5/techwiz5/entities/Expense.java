@@ -32,6 +32,9 @@ public class Expense extends   BaseEntity {
     @Column(name = "note")
     private String note;
 
+    @Column(name ="name")
+    private String name;
+
     @Column(name = "amount_expense", precision = 10, scale = 2)
     private BigDecimal amountExpense;
 
